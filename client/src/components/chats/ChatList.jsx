@@ -1,8 +1,9 @@
+import ChatCard from '../chats/ChatCard';
 
 function ChatList() {
   return (
-    <div>
-      
+    <div className="chat-list"> 
+      <ChatCard />
     </div>
   )
 }

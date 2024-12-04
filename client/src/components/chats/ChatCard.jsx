@@ -2,7 +2,7 @@
 function ChatCard() {
   return (
     <div>
-      
+      chatcard
     </div>
   )
 }

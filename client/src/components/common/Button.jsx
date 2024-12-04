@@ -1,10 +1,8 @@
 
-
-function Button() {
+function Button({title, btnFunction}) {
+  
   return (
-    <div>
-      
-    </div>
+    <button className="btn" onClick={() => btnFunction()}>{title}</button>
   )
 }
 
