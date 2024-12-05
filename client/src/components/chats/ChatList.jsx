@@ -1,6 +1,13 @@
+import { useEffect } from 'react';
 import ChatCard from '../chats/ChatCard';
+import { useChat } from '../../context/ChatContext';
 
 function ChatList() {
+
+  const context = useChat()
+  useEffect(() => {
+    console.log('log ', context.defaultChats);
+  },[])
   return (
     <div className="chat-list"> 
       <p className='title'>Charts</p>

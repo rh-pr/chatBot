@@ -279,3 +279,13 @@ figcaption {
   border: none;
   cursor: pointer;;
 }
+
+.toast {
+  position: fixed;
+  right: 2px;
+  bottom: 2px;
+  border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
