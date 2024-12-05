@@ -5,7 +5,7 @@ function ActiveChat() {
   return (
     <div className="active-chat">
       <div>
-        <Avarar />
+        <Avarar msg={null}/>
       </div>
       <Correspondence />
       <Form />

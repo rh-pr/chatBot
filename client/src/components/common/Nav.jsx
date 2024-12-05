@@ -3,7 +3,7 @@ import girl from '../../assets/images/girl1.png';
 import Button from '../common/Button';
 
 function Nav() {
-
+  const user = true;
   const logIn = () => {
     console.log('login');
   }
@@ -15,7 +15,10 @@ function Nav() {
         <img src={girl} alt="avatar"  />
         <Online />
       </figure>
-      <Button title='Log In' btnFunction={logIn}/>
+      <div className='nav-btn'>
+        {user && <Button title='New Chat' btnFunction={logIn}/>}
+        <Button title='Log In' btnFunction={logIn}/>
+      </div>
       </div>
       <form action="" className='search-form'>
         <input type="text" className='search-input' name='sr-input' id='sr-input' placeholder='Search or create new Chat' />
