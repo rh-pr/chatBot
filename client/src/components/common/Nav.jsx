@@ -6,20 +6,16 @@ import { useUser } from '../../context/UserContext';
 import { useChat } from '../../context/ChatContext';
 
 function Nav() {
-  const { setIsLoginModalOpen, setModalData, user } = useUser();
+  const { setIsLoginModalOpen, user, setUser } = useUser();
   const { setIsCreateChatOpen, setFindingChat } = useChat();
 
-  const logIn = () => {
-    console.log('login')
-  }
 
   const openLoginModal = () => {
     setIsLoginModalOpen(true);
-    setModalData({
-      msg: 'Log In',
-      title: 'Log In',
-      workedFunction: logIn
-    })
+  }
+
+  const logOut = () => {
+    setUser(null)
   }
 
   const createNewChatModal = () => {
@@ -39,7 +35,8 @@ function Nav() {
       </figure>
       <div className='nav-btn'>
         <Button title='New Chat' btnFunction={createNewChatModal}/>
-        <Button title='Log In' btnFunction={openLoginModal}/>
+        {!user && <Button title='Log In' btnFunction={openLoginModal}/>}
+        {user && <Button title='Log Out' btnFunction={logOut}/>}
       </div>
       </div>
       <form action="" className='search-form'>

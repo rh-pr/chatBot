@@ -3,7 +3,6 @@ import Avatar from '../active/Avatar';
 import girl from '../../assets/images/girl1.png';
 
 function ChatCard({chat}) {
-  console.log(chat, 'chat')
   const { setActiveChat, setIsRemoveChatOpen,setIsEditModalOpen, setSelectedChat } = useChat();
 
   const openDeleteChatModal = (chatId) => {

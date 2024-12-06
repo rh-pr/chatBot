@@ -2,6 +2,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { defaultChats, dumMsgs} from '../constatns/default';
 
+// import { postRequest } from '../services/httpRequst';
+
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
@@ -50,6 +52,12 @@ export const ChatProvider = ({ children }) => {
     useEffect(() => {
         console.log('testing',testing)
     },[testing])
+
+
+    // useEffect(() => {
+    //     const savedChats = JSON.parse(window.sessionStorage.getItem('chats'));
+    //     const usersChats = 
+    // },[])
 
     return (
         <ChatContext.Provider value={{ 

@@ -2,15 +2,23 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+const userRoute = require('./routes/userRoute');
+
 
 const app = express();
 require('dotenv').config();
 
+
+app.use(cors({
+    origin: '*'
+}));
+app.use(express.json());
+
+
 const PORT = process.env.PORT || 5000;
 const uri = process.env.ATLAS_URI;
 
-app.use(express.json());
-app.use(cors());
+app.use('/api/users', userRoute)
 
 
 
