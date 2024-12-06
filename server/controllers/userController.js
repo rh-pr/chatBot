@@ -18,11 +18,9 @@ const login = async(req, res) => {
            res.status(200).json({id: user._id, email, token});
         } else {
             user = new userModel({email, password});
-            console.log(user);
-
+    
             const token = createTocken(user._id);
-
-
+            
             const salt = await bcrypt.genSalt(10);
             console.log(salt);
             

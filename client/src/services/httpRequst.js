@@ -9,7 +9,6 @@ export const postRequest = async(url, body) => {
         body: JSON.stringify(body)
     });
 
-    console.log('response', response)
 
     const data = await response.json();
 
@@ -17,5 +16,16 @@ export const postRequest = async(url, body) => {
         return null;
     }
 
+    return data;
+}
+
+export const getRequest = async (url) => {
+    const response = await fetch(url);
+    
+    if (!response) {
+        return null
+    }
+
+    const data = await response.json();
     return data;
 }

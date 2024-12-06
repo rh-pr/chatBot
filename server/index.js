@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const userRoute = require('./routes/userRoute');
+const chatRoute = require('./routes/chatRoute');
 
 
 const app = express();
@@ -18,7 +19,8 @@ app.use(express.json());
 const PORT = process.env.PORT || 5000;
 const uri = process.env.ATLAS_URI;
 
-app.use('/api/users', userRoute)
+app.use('/api/users', userRoute);
+app.use('/api/chats', chatRoute);
 
 
 
