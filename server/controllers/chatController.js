@@ -73,7 +73,7 @@ const updateChat = async(req, res) => {
 }
 
 const deleteChat = async(req, res) => {
-    const { chatId } = req.body;
+    const { chatId } =  req.params;
 
     try {
         if( !chatId) {
@@ -84,7 +84,7 @@ const deleteChat = async(req, res) => {
             })
 
             if( !deletedChat) {
-                res.status(400).json({error: 'This chat cant'})
+                res.status(400).json({error: 'No permissions for deleting'})
             } else {
                 res.status(200).json(deletedChat)
             }

@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/', getChats);
 router.post('/newChat', createNewChat);
-router.delete('/deleteChat', deleteChat);
+router.delete('/deleteChat/:chatId', deleteChat);
 router.put('/updateChat', updateChat);
 
 module.exports = router;
