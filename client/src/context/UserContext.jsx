@@ -1,4 +1,6 @@
 import { createContext, useContext, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const UserContext = createContext();
 
@@ -11,6 +13,11 @@ export const UserProvider = ({ children }) => {
         workedFunction: () => {}
     })
 
+    const generateUnicID = () => {
+        return uuidv4();
+    };
+
+
     return (
         <UserContext.Provider value={{ 
             user, 
@@ -18,7 +25,9 @@ export const UserProvider = ({ children }) => {
             isLoginModalOpen, 
             setIsLoginModalOpen,
             modalData,
-            setModalData
+            setModalData,
+
+            generateUnicID
         }}>
             {children}
         </UserContext.Provider>

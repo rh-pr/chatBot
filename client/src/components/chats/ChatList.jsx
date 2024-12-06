@@ -3,12 +3,18 @@ import ChatCard from '../chats/ChatCard';
 import { useChat } from '../../context/ChatContext';
 
 function ChatList() {
-  const { chats } = useChat();
+  const { chats, findingChat, selectedChat } = useChat();
   const [chatsList, setChatsList] = useState(chats);
 
   useEffect(() => {
     setChatsList(chats);
+    console.log('updated', chats[selectedChat])
   },[chats])
+
+  useEffect(() => {
+    const filtered = chats.filter(chat => chat.firstName.includes(findingChat) || chat.lastName.includes(findingChat));
+    setChatsList(filtered);
+  },[findingChat])
 
   return (
     <div className="chat-list"> 

@@ -11,8 +11,6 @@ function LoginModal() {
     return (
       <div className="modal-bg">
         <form action="" className="modal-form">
-            <input type="text" placeholder="Enter your first name" className="modal-input" required/>
-            <input type="text" placeholder="Enter your last name"  className="modal-input" required/>
             <input type="email" name="modal-email" className="modal-input"  placeholder="Email"/>
             <input type="password"  className="modal-input" placeholder="Password"/>
             <div className="modal-btns">

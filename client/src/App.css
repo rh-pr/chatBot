@@ -312,7 +312,7 @@ figcaption {
 }
 
 .modal-bg {
-  display: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
@@ -333,6 +333,7 @@ figcaption {
   gap: 10px;
   justify-content: center;
   align-items: center;
+  background-color: white;
 }
 
 .modal-input {

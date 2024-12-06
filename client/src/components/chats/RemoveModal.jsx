@@ -4,18 +4,24 @@ import { useUser } from "../../context/UserContext"
 
 function RemoveModal() {
     const { modalData } = useUser();
-    const { setIsRemoveChatOpen } = useChat();
+    const { setIsRemoveChatOpen, chats, setChats, selectedChat } = useChat();
 
     const closeModal = () => {
         setIsRemoveChatOpen(false)
     }
 
+    const removeChat = () => {
+        const fileterd = chats.filter(chat => chat.id !== selectedChat);
+        setChats(fileterd);
+        setIsRemoveChatOpen(false)    
+    }
+
   return (
     <div className="modal-bg">
-        <form action="" className="modal-form">
+        <form action="" className="modal-form" onSubmit={() => removeChat()}>
             <p>{modalData.msg}</p>
             <div className="modal-btns">
-                <button className="modal-function modal-btn" onClick={() => modalData.workedFunction()}>{modalData.title}</button>
+                <button className="modal-function modal-btn" type="submit">Delete</button>
                 <button className="modal-close modal-btn" onClick={() => closeModal()}>X</button>
             </div>
         
