@@ -33,6 +33,10 @@ export const ChatProvider = ({ children }) => {
         };
         return new Intl.DateTimeFormat('en-US', options).format(date);
       };
+    
+    const updateMsgList = (newMsg) => {
+        setMsgsList(prevMsg => [...prevMsg, newMsg])
+    }
 
     useEffect(() => {
         const savedChats = window.sessionStorage.getItem('chats');
@@ -69,7 +73,8 @@ export const ChatProvider = ({ children }) => {
             setSelectedChat,
 
             addNewChat,
-            formatDate
+            formatDate,
+            updateMsgList
         }}>
             {children}
         </ChatContext.Provider>

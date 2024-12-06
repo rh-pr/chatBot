@@ -19,40 +19,14 @@ function Correspondence() {
     <div className="corresp">
       {filteredMsg && filteredMsg.map((msg) => 
       <div className={`msg-container ${msg.sender === 'user' ? 'msg-sende' :  'msg-recieve'}`} key={msg.id}>
-        <figure>
+       {msg.sender === 'bot' && <figure>
          <img src={girl} alt="avatar"  />
-       </figure>
+       </figure>}
          <div className=" msg">
              <p className={`msg-content`}>{msg.msg}</p> 
              <p className="msg-time">{msg.time}</p>
          </div>
       </div>)}
-    
-        {/* chagne msg-recieve for top */}
-     {/* <div className="msg-container msg-recieve">
-     <figure>
-        <img src={girl} alt="avatar"  />
-      </figure>
-        <div className=" msg">
-            <p className={`msg-content`}>Hi, how are you?</p> 
-            <p className="msg-time">8/17/2022, 7:43AM</p>
-        </div>
-     </div>
-
-     <div className="msg-container msg-sende">
-        <div className=" msg">
-            <p className={`msg-content`}>Not bad, what about you?</p> 
-            <p className="msg-time">8/17/2022, 7:45AM</p>
-      </div>
-     </div>
-
-     <div className="msg-container msg-sende">
-      <div className=" msg">
-        <p className={`msg-content`}>How was your meeting?</p> 
-        <p className="msg-time">8/17/2022, 7:45AM</p>
-      </div>
-     </div> */}
-
     </div>
   )
 }
