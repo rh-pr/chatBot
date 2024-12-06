@@ -1,23 +1,50 @@
 import Online from './Online';
 import girl from '../../assets/images/girl1.png';
+import defaultUser from '../../assets/images/user.png';
 import Button from '../common/Button';
+import { useUser } from '../../context/UserContext';
+import { useChat } from '../../context/ChatContext';
 
 function Nav() {
-  const user = true;
+  const { setIsLoginModalOpen, setModalData, user } = useUser();
+  const { setIsCreateChatOpen } = useChat();
+
   const logIn = () => {
-    console.log('login');
+    console.log('login')
+  }
+
+  const newChat = () => {
+    console.log('nenw chat');
+  }
+
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
+    setModalData({
+      msg: 'Log In',
+      title: 'Log In',
+      workedFunction: logIn
+    })
+  }
+
+  const createNewChatModal = () => {
+    setIsCreateChatOpen(true);
+    setModalData({
+      msg: '',
+      title: 'Create',
+      workedFunction: newChat
+    })
   }
 
   return (
     <div className="nav">
       <div className='header'>
       <figure >
-        <img src={girl} alt="avatar"  />
-        <Online />
+       <img src={user ? girl : defaultUser} alt="avatar"  />
+        {user && <Online />} 
       </figure>
       <div className='nav-btn'>
-        {user && <Button title='New Chat' btnFunction={logIn}/>}
-        <Button title='Log In' btnFunction={logIn}/>
+        <Button title='New Chat' btnFunction={createNewChatModal}/>
+        <Button title='Log In' btnFunction={openLoginModal}/>
       </div>
       </div>
       <form action="" className='search-form'>

@@ -1,26 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ChatCard from '../chats/ChatCard';
 import { useChat } from '../../context/ChatContext';
 
 function ChatList() {
+  const { chats } = useChat();
+  const [chatsList, setChatsList] = useState(chats);
 
-  const context = useChat()
   useEffect(() => {
-    console.log('log ', context.defaultChats);
-  },[])
+    setChatsList(chats);
+  },[chats])
+
   return (
     <div className="chat-list"> 
       <p className='title'>Charts</p>
      <div className='list'>
-      <ChatCard />
-      <ChatCard />
-      <ChatCard />
-      <ChatCard />
-      <ChatCard />
-      <ChatCard />
-      <ChatCard />
-      <ChatCard />
-      <ChatCard />
+      {chatsList && chatsList.map((chat, ind) => 
+        <ChatCard key={`chat-${ind}`} chat={chat}/>)}
      </div>
 
     </div>

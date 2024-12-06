@@ -1,17 +1,19 @@
-import girl from '../../assets/images/girl1.png';
+
 import Online from '../common/Online';
 
-function Avatar({msg}) {
+function Avatar({chat, img}) {
+
+
   return (
     <div className='avatar'>
       <figure>
-        <img src={girl} alt="avatar"  />
+        <img src={img} alt="avatar"  />
         <Online />
       </figure>
-      <figcaption>
-        <p>Alice Freeman</p>
-        {msg && <p className='avatar-msg'>{msg}</p>}
-      </figcaption>
+      {chat && <figcaption>
+        <p>{chat.firstName} {chat.lastName}</p>
+         {chat.lastMsg && <p className='avatar-msg'>{chat.lastMsg}</p>}
+      </figcaption>}
     </div>
   )
 }
