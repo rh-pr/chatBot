@@ -41,7 +41,7 @@ const saveMessageToBD = async(req, res) => {
        }
 }
 
-const getMessagesFromDB = async(req, res) => {
+const getMessagesByID = async(req, res) => {
     console.log('hi');
     
     const { chatId } = req.params;
@@ -63,8 +63,21 @@ const getMessagesFromDB = async(req, res) => {
    }
 }
 
+const getAllMessages = async(req, res) => {
+
+    try {
+        const messages = await messageModel.find({})
+
+        res.status(200).json(messages);
+
+   } catch(err) {
+    console.log(err);
+    res.status(500).json(err);
+   }
+}
 
 module.exports = {
+    getAllMessages,
     saveMessageToBD,
-    getMessagesFromDB,
+    getMessagesByID,
 }

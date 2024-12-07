@@ -1,6 +1,6 @@
 // ChatContext.js
 import { createContext, useContext, useEffect, useState } from "react";
-import { defaultChats, dumMsgs} from '../constatns/default';
+import { defaultChats} from '../constatns/default';
 import { useUser } from './UserContext';
 import { getRequest, postRequest, deleteRequest, updateRequest } from "../services/httpRequst";
 // import { getChats } from "../../../server/controllers/chatController";
@@ -98,16 +98,52 @@ export const ChatProvider = ({ children }) => {
         console.log('newMsg', newMsg);
 
 
-        const respose = await postRequest(url, newMsg);
-        // if (!respose) return;
-        setMsgsList(prev => [...prev, respose]);
-        console.log('response', respose)
+        const response = await postRequest(url, newMsg);
+        if (!response) return -1;
+        setMsgsList(prev => [...prev, {
+            id: response._id,
+            chatId: response.chatId,
+            msg: response.msg,
+            sender: response.sender,
+            time: response.date
+        }])
     }
     
+    const getMessagesFromDB = async(chatId) => {
+        if (user) {
+            const url = `${import.meta.env.VITE_BASE_URL}/messages/${chatId}`;
+            const response = await getRequest(url);
+            // if (!response) {
+            //     return -1;
+            // }
+            console.log('response all msg', response);
+            updateLastMessage(response.msg, response.date);
+            
+            setMsgsList({
+                id: response._id,
+                chatId: response.chatId,
+                msg: response.msg,
+                sender: response.sender,
+                time: response.date
+            });
+        }
+    }
+
     const updateMsgList = (newMsg) => {
         setMsgsList(prevMsg => [...prevMsg, newMsg])
     }
 
+    const updateLastMessage = (msg, time, chatId) => {
+        console.log('lalala', msg, time,chatId);
+        
+        setChats((prev) => prev.map((el => el.id === chatId ? {...el, lastMsg: msg, lastMsgTime: time} : el)));
+    }
+
+    useEffect(() => {
+        const msg = messagesList[messagesList.length - 1];
+        updateLastMessage(msg.msg, msg.time, msg.chatId)
+
+    },[messagesList])
     
     useEffect(() => {
         window.sessionStorage.setItem('chats', JSON.stringify(chats));
@@ -123,10 +159,9 @@ export const ChatProvider = ({ children }) => {
             setChats(defaultChats);
         } else {
             const updatedCatsList = async () => {
-                // chats.forEach(async(chat) => addNewChatToDB(chat, user));
                 await Promise.all(chats.map(async (chat) => addNewChatToDB(chat,user)));
-            
                 getChatsFromDB(user.id);
+
             };
             updatedCatsList();
         }
@@ -159,7 +194,9 @@ export const ChatProvider = ({ children }) => {
             updateMsgList,
             deleteChat,
             editChat,
-            saveMsgToDB
+            saveMsgToDB,
+            getMessagesFromDB,
+            updateLastMessage
         }}>
             {children}
         </ChatContext.Provider>

@@ -1,11 +1,12 @@
 const express = require('express');
-const  { saveMessageToBD, getMessagesFromDB } = require('../controllers/messageController');
+const  { saveMessageToBD, getMessagesByID,getAllMessages } = require('../controllers/messageController');
 
 const router = express.Router();
 
 // console.log(saveMessageToBD);
 
-router.get('/:chatId', getMessagesFromDB);
+router.get('/', getAllMessages)
+router.get('/:chatId', getMessagesByID);
 router.post('/sendMsg', saveMessageToBD);
 
 

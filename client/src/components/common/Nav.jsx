@@ -6,8 +6,8 @@ import { useUser } from '../../context/UserContext';
 import { useChat } from '../../context/ChatContext';
 
 function Nav() {
-  const { setIsLoginModalOpen, user, setUser, setMsgsList } = useUser();
-  const { setIsCreateChatOpen, setFindingChat } = useChat();
+  const { setIsLoginModalOpen, user, setUser } = useUser();
+  const { setIsCreateChatOpen, setFindingChat, setActiveChat } = useChat();
 
 
   const openLoginModal = () => {
@@ -15,9 +15,8 @@ function Nav() {
   }
 
   const logOut = () => {
-    setMsgsList([])
+    setActiveChat(null)
     setUser(null)
-    
   }
 
   const createNewChatModal = () => {

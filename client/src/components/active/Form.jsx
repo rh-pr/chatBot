@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useChat } from "../../context/ChatContext";
 import { useUser } from "../../context/UserContext";
 function Form() {
-  const { activeChat, formatDate, updateMsgList, saveMsgToDB } = useChat();
+  const { activeChat, formatDate, updateMsgList, saveMsgToDB, updateLastMessage } = useChat();
   const { generateUnicID } = useUser();
 
   const [message, setMessage] = useState('')
+
+
 
   const updatedMessages = (e) => {
     e.preventDefault();
@@ -17,6 +19,7 @@ function Form() {
       time: formatDate(new Date())
     };
     saveMsgToDB(newMessage);
+    updateLastMessage(newMessage.msg, newMessage.time);
     setMessage('');
     console.log('new', message)
     updateMsgList(newMessage);
