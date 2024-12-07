@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { defaultChats, dumMsgs} from '../constatns/default';
 import { useUser } from './UserContext';
-import { getRequest, postRequest } from "../services/httpRequst";
+import { getRequest, postRequest, deleteRequest } from "../services/httpRequst";
 // import { postRequest } from '../services/httpRequst';
 
 const ChatContext = createContext();
@@ -61,6 +61,13 @@ export const ChatProvider = ({ children }) => {
         setChats(prev => [...prev, chat]);
     }
 
+    const deleteChat = async(chatId) => {
+        // const filtered = chats.filtered((chat) => chat.id !== chatId);
+        const url = `${import.meta.env.VITE_BASE_URL}/chats/deleteChat/${chatId}`;
+        const res = await deleteRequest(url);
+        console.log('deleted', res)
+    }
+
     const formatDate = (date) => {
         const options = {
           year: 'numeric',
@@ -76,6 +83,7 @@ export const ChatProvider = ({ children }) => {
     const updateMsgList = (newMsg) => {
         setMsgsList(prevMsg => [...prevMsg, newMsg])
     }
+
     
     useEffect(() => {
         window.sessionStorage.setItem('chats', JSON.stringify(chats));
@@ -124,7 +132,8 @@ export const ChatProvider = ({ children }) => {
 
             addNewChat,
             formatDate,
-            updateMsgList
+            updateMsgList,
+            deleteChat
         }}>
             {children}
         </ChatContext.Provider>

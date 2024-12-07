@@ -83,7 +83,7 @@ const deleteChat = async(req, res) => {
             res.status(400).json({error: 'ChatId is reqired'})
         } else {
             const deletedChat = await chatModel.findOneAndDelete({
-                _id: chatId
+                chatId: chatId
             })
 
             if( !deletedChat) {
