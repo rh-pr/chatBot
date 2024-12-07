@@ -21,7 +21,6 @@ function Form() {
     saveMsgToDB(newMessage);
     updateLastMessage(newMessage.msg, newMessage.time);
     setMessage('');
-    console.log('new', message)
     updateMsgList(newMessage);
   }
   

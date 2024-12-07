@@ -3,8 +3,6 @@ const  { saveMessageToBD, getMessagesByID,getAllMessages, deleteMessages } = req
 
 const router = express.Router();
 
-// console.log(saveMessageToBD);
-
 router.delete('/delete/:chatId', deleteMessages);
 router.get('/', getAllMessages)
 router.get('/:chatId', getMessagesByID);

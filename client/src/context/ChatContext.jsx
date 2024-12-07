@@ -53,7 +53,6 @@ export const ChatProvider = ({ children }) => {
                 lastMsgTime: chat.sendingTime,
             }});
 
-        console.log('data from database', newChatsList);
         setChats(newChatsList);
     }
 
@@ -127,17 +126,13 @@ export const ChatProvider = ({ children }) => {
 
     const removeMessages = async ( chatId ) => {
         const url = `${import.meta.env.VITE_BASE_URL}/messages/delete/${chatId}`;
-        const response = await deleteRequest(url);
-
-        console.log('delete message', response);
+        await deleteRequest(url);
     }
     const updateMsgList = (newMsg) => {
         setMsgsList(prevMsg => [...prevMsg, newMsg])
     }
 
     const updateLastMessage = (msg, time, chatId) => {
-        console.log('lalala', msg, time,chatId);
-        
         setChats((prev) => prev.map((el => el.id === chatId ? {...el, lastMsg: msg, lastMsgTime: time} : el)));
     }
 

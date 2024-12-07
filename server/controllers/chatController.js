@@ -18,7 +18,6 @@ const createNewChat = async( req, res ) => {
             return res.status(200).json(chat);
         } else {
             const newChat = new chatModel({chatId, userId, firstName, lastName, lastMessage, sendingTime});
-            // console.log('cansel', newChat);
             const response = await newChat.save();
 
             res.status(200).json(response);

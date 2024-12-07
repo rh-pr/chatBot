@@ -10,7 +10,6 @@ function Correspondence() {
 
   useEffect(() => {
     if (!messagesList || !activeChat) return;
-    console.log('active chat' , activeChat)
     const filtered = messagesList.filter(msg => msg.chatId === activeChat.id);
     setFilteredMsg(filtered);
   },[messagesList, activeChat])
