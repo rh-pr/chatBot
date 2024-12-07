@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 
 const userRoute = require('./routes/userRoute');
 const chatRoute = require('./routes/chatRoute');
+const messageRoute = require('./routes/messageRoute')
+
 
 
 const app = express();
@@ -21,6 +23,8 @@ const uri = process.env.ATLAS_URI;
 
 app.use('/api/users', userRoute);
 app.use('/api/chats', chatRoute);
+
+app.use('/api/messages', messageRoute);
 
 
 
