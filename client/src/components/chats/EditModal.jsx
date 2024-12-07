@@ -3,7 +3,7 @@ import { useChat } from "../../context/ChatContext";
 
 
 function EditModal() {
-    const { setIsEditModalOpen, selectedChat, setChats } = useChat();
+    const { setIsEditModalOpen, selectedChat, setChats, editChat } = useChat();
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -15,8 +15,12 @@ function EditModal() {
 
     const editChatName = (e) => {
       e.preventDefault();
-      console.log('from edit', selectedChat)
-      // const newChat = {...selectedChat}
+      const editedData = {
+        chatId: selectedChat,
+        firstName: firstName,
+        lastName: lastName
+      }
+      editChat(editedData);
       setChats((prevChat) =>
         prevChat.map((chat) =>
           chat.id === selectedChat ? { ...chat, firstName: firstName.trim().length > 0 ? firstName : chat.firstName, lastName: lastName.trim().length > 0 ? lastName : chat.lastName } : chat

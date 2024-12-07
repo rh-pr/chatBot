@@ -2,7 +2,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { defaultChats, dumMsgs} from '../constatns/default';
 import { useUser } from './UserContext';
-import { getRequest, postRequest, deleteRequest } from "../services/httpRequst";
+import { getRequest, postRequest, deleteRequest, updateRequest } from "../services/httpRequst";
+// import { getChats } from "../../../server/controllers/chatController";
 // import { postRequest } from '../services/httpRequst';
 
 const ChatContext = createContext();
@@ -62,10 +63,15 @@ export const ChatProvider = ({ children }) => {
     }
 
     const deleteChat = async(chatId) => {
-        // const filtered = chats.filtered((chat) => chat.id !== chatId);
         const url = `${import.meta.env.VITE_BASE_URL}/chats/deleteChat/${chatId}`;
         const res = await deleteRequest(url);
         console.log('deleted', res)
+    }
+
+    const editChat = async(editedData) => {
+        const url = `${import.meta.env.VITE_BASE_URL}/chats/updateChat`;
+        const response = await updateRequest(url, editedData);
+        console.log('edited ', response); 
     }
 
     const formatDate = (date) => {
@@ -133,7 +139,8 @@ export const ChatProvider = ({ children }) => {
             addNewChat,
             formatDate,
             updateMsgList,
-            deleteChat
+            deleteChat,
+            editChat
         }}>
             {children}
         </ChatContext.Provider>

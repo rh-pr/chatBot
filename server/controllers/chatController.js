@@ -58,9 +58,11 @@ const updateChat = async(req, res) => {
         res.status(400).json({error: 'ChatId is reqired'})
     } else {
         const updatedChat = await chatModel.findOneAndUpdate({
-            _id: chatId,
-            firstName: firstName,
-            lastName: lastName
+            chatId: chatId
+        },
+        {
+            ...(firstName && firstName.trim() !== '' && { firstName }),
+            ...(lastName && lastName.trim() !== '' && { lastName }),
         });
     
         if (!updatedChat) {
