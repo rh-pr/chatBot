@@ -4,7 +4,7 @@ import { useUser } from "../../context/UserContext"
 
 function RemoveModal() {
     const { modalData } = useUser();
-    const { setIsRemoveChatOpen, chats, setChats, selectedChat, deleteChat } = useChat();
+    const { setIsRemoveChatOpen, chats, setChats, selectedChat, deleteChat, removeMessages,setActiveChat } = useChat();
 
     const closeModal = () => {
         setIsRemoveChatOpen(false)
@@ -14,7 +14,9 @@ function RemoveModal() {
         const fileterd = chats.filter(chat => chat.id !== selectedChat);
         setChats(fileterd);
         deleteChat(selectedChat);
-        setIsRemoveChatOpen(false)    
+        removeMessages(selectedChat)
+        setIsRemoveChatOpen(false)   
+        setActiveChat(null)
     }
 
   return (

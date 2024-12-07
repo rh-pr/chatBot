@@ -116,7 +116,6 @@ export const ChatProvider = ({ children }) => {
             // if (!response) {
             //     return -1;
             // }
-            console.log('response all msg', response);
             updateLastMessage(response.msg, response.date);
             
             setMsgsList({
@@ -129,6 +128,12 @@ export const ChatProvider = ({ children }) => {
         }
     }
 
+    const removeMessages = async ( chatId ) => {
+        const url = `${import.meta.env.VITE_BASE_URL}/messages/delete/${chatId}`;
+        const response = await deleteRequest(url);
+
+        console.log('delete message',response);
+    }
     const updateMsgList = (newMsg) => {
         setMsgsList(prevMsg => [...prevMsg, newMsg])
     }
@@ -141,7 +146,7 @@ export const ChatProvider = ({ children }) => {
 
     useEffect(() => {
         const msg = messagesList[messagesList.length - 1];
-        updateLastMessage(msg.msg, msg.time, msg.chatId)
+        msg && updateLastMessage(msg.msg, msg.time, msg.chatId)
 
     },[messagesList])
     
@@ -196,7 +201,8 @@ export const ChatProvider = ({ children }) => {
             editChat,
             saveMsgToDB,
             getMessagesFromDB,
-            updateLastMessage
+            updateLastMessage,
+            removeMessages
         }}>
             {children}
         </ChatContext.Provider>

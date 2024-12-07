@@ -76,8 +76,28 @@ const getAllMessages = async(req, res) => {
    }
 }
 
+const deleteMessages = async(req, res) => {
+    const { chatId } = req.params;
+
+    try {
+        if (!chatId) {
+            res.status(400).json({ error: 'UserId is required' });
+        } else {
+            const messages = await messageModel.deleteMany({
+                chatId: chatId
+            })
+
+            res.status(200).json(messages);
+        }
+    }catch(err) {
+    console.log(err);
+    res.status(500).json(err);
+   }
+}
+
 module.exports = {
     getAllMessages,
     saveMessageToBD,
     getMessagesByID,
+    deleteMessages
 }
