@@ -1,9 +1,14 @@
 import { useChat } from '../../context/ChatContext';
 import Avatar from '../active/Avatar';
 import girl from '../../assets/images/girl1.png';
+import ToastNotification from '../common/ToastNotification';
+import { useEffect, useState } from 'react';
 
 function ChatCard({chat}) {
-  const { setActiveChat, setIsRemoveChatOpen,setIsEditModalOpen, setSelectedChat } = useChat();
+  const {activeChat, setActiveChat, setIsRemoveChatOpen,setIsEditModalOpen, setSelectedChat, newNotification } = useChat();
+
+  const [count, setCount] = useState(0);
+
 
   const openDeleteChatModal = (chatId) => {
     setIsRemoveChatOpen(true);
@@ -15,8 +20,17 @@ function ChatCard({chat}) {
     setSelectedChat(chatId);
   }
 
+  const handleCard = () => {
+    setActiveChat(chat);
+    setCount(0)
+  }
+
+  useEffect(() => {
+    newNotification === chat.id && chat.id !== activeChat ? setCount(prev => prev + 1) : count;
+  },[newNotification])
   return (
-    <div className={`card`} onClick={() => setActiveChat(chat)}>
+    <div className={`card`} onClick={() => handleCard()}>
+      {count > 0 && <ToastNotification num={count}/>}
       <Avatar  chat={chat} img={girl}/>
       <p className="msg-time">{chat.lastMsgTime}</p>
       <div className='card-btn'>

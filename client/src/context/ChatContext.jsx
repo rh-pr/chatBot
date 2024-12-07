@@ -21,6 +21,8 @@ export const ChatProvider = ({ children }) => {
     const [findingChat, setFindingChat] = useState('');
     const [selectedChat, setSelectedChat] = useState('');
 
+    const [newNotification, setNewNotification] = useState(null)
+
 
     const [testing, setTesting] = useState('');
 
@@ -94,10 +96,6 @@ export const ChatProvider = ({ children }) => {
             sender: msg.sender,
             date: msg.time
         }
-        console.log('url', url);
-        console.log('newMsg', newMsg);
-
-
         const response = await postRequest(url, newMsg);
         if (!response) return -1;
         setMsgsList(prev => [...prev, {
@@ -107,15 +105,14 @@ export const ChatProvider = ({ children }) => {
             sender: response.sender,
             time: response.date
         }])
+        setNewNotification(response.chatId);
     }
     
     const getMessagesFromDB = async(chatId) => {
         if (user) {
             const url = `${import.meta.env.VITE_BASE_URL}/messages/${chatId}`;
             const response = await getRequest(url);
-            // if (!response) {
-            //     return -1;
-            // }
+        
             updateLastMessage(response.msg, response.date);
             
             setMsgsList({
@@ -132,7 +129,7 @@ export const ChatProvider = ({ children }) => {
         const url = `${import.meta.env.VITE_BASE_URL}/messages/delete/${chatId}`;
         const response = await deleteRequest(url);
 
-        console.log('delete message',response);
+        console.log('delete message', response);
     }
     const updateMsgList = (newMsg) => {
         setMsgsList(prevMsg => [...prevMsg, newMsg])
@@ -193,6 +190,7 @@ export const ChatProvider = ({ children }) => {
             setFindingChat,
             selectedChat,
             setSelectedChat,
+            newNotification,
 
             addNewChat,
             formatDate,

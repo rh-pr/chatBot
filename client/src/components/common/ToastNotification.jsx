@@ -1,9 +1,8 @@
 
-function ToastNotification() {
-    const newMsg = 'Hi how are you';
+function ToastNotification({num}) {
   return (
     <div className="toast">
-        You hae new msg: {newMsg}
+      {num}
     </div>
   )
 }
