@@ -4,7 +4,7 @@ import { useUser } from "../../context/UserContext";
 
 function NewChatModal() {
     const { generateUnicID } = useUser();
-    const { setIsCreateChatOpen, addNewChat, formatDate } = useChat();
+    const { setIsCreateChatOpen, addNewChat } = useChat();
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('')
@@ -20,7 +20,7 @@ function NewChatModal() {
         firstName: firstName,
         lastName: lastName,
         lastMsg: '',
-        lastMsgTime: formatDate(new Date())
+        lastMsgTime: ''
       }
       addNewChat(newChat);
 

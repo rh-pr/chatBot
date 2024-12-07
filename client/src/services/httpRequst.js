@@ -20,6 +20,8 @@ export const postRequest = async(url, body) => {
 }
 
 export const getRequest = async (url) => {
+    console.log('url from response', url);
+    
     const response = await fetch(url);
     
     if (!response) {

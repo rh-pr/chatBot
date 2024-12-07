@@ -8,7 +8,7 @@ const {
 
 const router = express.Router();
 
-router.get('/', getChats);
+router.get('/:userId', getChats);
 router.post('/newChat', createNewChat);
 router.delete('/deleteChat/:chatId', deleteChat);
 router.put('/updateChat', updateChat);

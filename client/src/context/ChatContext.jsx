@@ -1,12 +1,15 @@
 // ChatContext.js
 import { createContext, useContext, useEffect, useState } from "react";
 import { defaultChats, dumMsgs} from '../constatns/default';
-
+import { useUser } from './UserContext';
+import { getRequest, postRequest } from "../services/httpRequst";
 // import { postRequest } from '../services/httpRequst';
 
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
+    
+    const { user } = useUser();
     const [chats, setChats] = useState(defaultChats);
     const [isCreateChatOpen, setIsCreateChatOpen] = useState(false);
     const [activeChat, setActiveChat] = useState(null);
@@ -20,8 +23,42 @@ export const ChatProvider = ({ children }) => {
 
     const [testing, setTesting] = useState('');
 
-    const addNewChat = (chat) => {
-        setChats(prev => [...prev,chat]);
+    const addNewChatToDB = async(chat, user) => {
+        const newChat = {
+            chatId: chat.id,
+            userId: user.id,
+            firstName: chat.firstName,
+            lastName: chat.lastName,
+            lastMessage: chat.lastMsg,
+            sendingTime: chat.lastMsgTime,
+        }
+        
+        const url = `${import.meta.env.VITE_BASE_URL}/chats/newChat`;
+        await postRequest(url, newChat);
+    }
+
+    const getChatsFromDB = async(userId) => {
+        const updatedChats = await getRequest(`${import.meta.env.VITE_BASE_URL}/chats/${userId}`);
+        if (!updatedChats) return [];
+        const newChatsList = updatedChats.map(chat => {
+             return {
+                id: chat.chatId,
+                userId: chat.userId,
+                firstName: chat.firstName,
+                lastName: chat.lastName,
+                lastMsg: chat.lastMessage,
+                lastMsgTime: chat.sendingTime,
+            }});
+
+        console.log('data from database', newChatsList);
+        setChats(newChatsList);
+    }
+
+    const addNewChat = async (chat) => {
+       if (user) {
+        addNewChatToDB(chat, user);
+       } 
+        setChats(prev => [...prev, chat]);
     }
 
     const formatDate = (date) => {
@@ -39,12 +76,7 @@ export const ChatProvider = ({ children }) => {
     const updateMsgList = (newMsg) => {
         setMsgsList(prevMsg => [...prevMsg, newMsg])
     }
-
-    useEffect(() => {
-        const savedChats = window.sessionStorage.getItem('chats');
-        if( savedChats ) { setChats(JSON.parse(savedChats))};
-    },[])
-
+    
     useEffect(() => {
         window.sessionStorage.setItem('chats', JSON.stringify(chats));
     },[chats])
@@ -54,10 +86,20 @@ export const ChatProvider = ({ children }) => {
     },[testing])
 
 
-    // useEffect(() => {
-    //     const savedChats = JSON.parse(window.sessionStorage.getItem('chats'));
-    //     const usersChats = 
-    // },[])
+    useEffect(() => {
+        if (!user) {
+            setChats(defaultChats);
+        } else {
+            const updatedCatsList = async () => {
+                // chats.forEach(async(chat) => addNewChatToDB(chat, user));
+                await Promise.all(chats.map(async (chat) => addNewChatToDB(chat,user)));
+            
+                getChatsFromDB(user.id);
+            };
+            updatedCatsList();
+        }
+       
+    },[user])
 
     return (
         <ChatContext.Provider value={{ 

@@ -1,12 +1,15 @@
 const chatModel = require("../models/chatModel");
 
 const createNewChat = async( req, res ) => {
-    const { userId, firstName, lastName} = req.body;
+    const {chatId, userId, firstName, lastName, lastMessage, sendingTime} = req.body;
     try {
         const chat = await chatModel.findOne({
+            chatId,
             userId, 
             firstName,
-            lastName
+            lastName,
+            lastMessage,
+            sendingTime
         }, {
             timestamp: true
         })
@@ -14,8 +17,8 @@ const createNewChat = async( req, res ) => {
         if (chat) {
             return res.status(200).json(chat);
         } else {
-            const newChat = new chatModel({userId, firstName, lastName});
-            console.log('cansel', newChat);
+            const newChat = new chatModel({chatId, userId, firstName, lastName, lastMessage, sendingTime});
+            // console.log('cansel', newChat);
             const response = await newChat.save();
 
             res.status(200).json(response);
@@ -28,7 +31,7 @@ const createNewChat = async( req, res ) => {
 }
 
 const getChats = async( req, res) => {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
    try {
         if (!userId) {

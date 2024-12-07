@@ -3,12 +3,11 @@ import ChatCard from '../chats/ChatCard';
 import { useChat } from '../../context/ChatContext';
 
 function ChatList() {
-  const { chats, findingChat, selectedChat } = useChat();
+  const { chats, findingChat } = useChat();
   const [chatsList, setChatsList] = useState(chats);
 
   useEffect(() => {
     setChatsList(chats);
-    console.log('updated', chats[selectedChat])
   },[chats])
 
   useEffect(() => {
