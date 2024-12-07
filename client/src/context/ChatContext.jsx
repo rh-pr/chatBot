@@ -17,7 +17,7 @@ export const ChatProvider = ({ children }) => {
     const [isRemoveChatOpen, setIsRemoveChatOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen ] = useState(false);
     // const [messagesList, setMsgsList] = useState(null);
-    const [messagesList, setMsgsList] = useState(dumMsgs);
+    const [messagesList, setMsgsList] = useState([]);
     const [findingChat, setFindingChat] = useState('');
     const [selectedChat, setSelectedChat] = useState('');
 
@@ -85,6 +85,24 @@ export const ChatProvider = ({ children }) => {
         };
         return new Intl.DateTimeFormat('en-US', options).format(date);
       };
+
+    const saveMsgToDB = async(msg) => {
+        const url = `${import.meta.env.VITE_BASE_URL}/messages/sendMsg`;
+        const newMsg = {
+            chatId: msg.chatId,
+            msg: msg.msg,
+            sender: msg.sender,
+            date: msg.time
+        }
+        console.log('url', url);
+        console.log('newMsg', newMsg);
+
+
+        const respose = await postRequest(url, newMsg);
+        // if (!respose) return;
+        setMsgsList(prev => [...prev, respose]);
+        console.log('response', respose)
+    }
     
     const updateMsgList = (newMsg) => {
         setMsgsList(prevMsg => [...prevMsg, newMsg])
@@ -140,7 +158,8 @@ export const ChatProvider = ({ children }) => {
             formatDate,
             updateMsgList,
             deleteChat,
-            editChat
+            editChat,
+            saveMsgToDB
         }}>
             {children}
         </ChatContext.Provider>

@@ -17,14 +17,8 @@ const formatDate = (date) => {
   };
 
 const saveMessageToBD = async(req, res) => {
-    console.log(
-    'hihih'
-    )
     console.log('sendMsg ,', req.body);
     const {chatId, msg, sender, date } = req.body;
-
-    console.log('sendMsg ,', req.body);
-
     try {
         const newMessage = new messageModel({chatId, msg, sender, date});
         await newMessage.save();
