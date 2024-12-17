@@ -1,16 +1,18 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const {Server, Socket} = require('socket.io');
+
+
 
 const userRoute = require('./routes/userRoute');
 const chatRoute = require('./routes/chatRoute');
 const messageRoute = require('./routes/messageRoute')
 
+require('dotenv').config();
 
 
 const app = express();
-require('dotenv').config();
-
 
 app.use(cors({
     origin: '*'
@@ -28,8 +30,24 @@ app.use('/api/messages', messageRoute);
 
 
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
+    
     console.log(`server run on this port ${PORT}`)
 });
 
+
 mongoose.connect(uri).then(() => console.log('MongoDB contectes')).catch((error) => {console.log('MongoDB failed conection: ', error.message);});
+
+
+const io = new Server(server, {
+    cors: {
+        origin: '*', //here chage to the client address
+        methods: ['GET', 'POST']
+    }
+})
+
+
+
+io.on('connection', (socket) => {
+    console.log('here is running socket')
+})

@@ -1,5 +1,6 @@
 const messageModel = require('../models/messageModel');
 
+
 const generateAnswerMsg = (msg) => {
     return msg.split('').reverse().join('');
 }
@@ -21,18 +22,22 @@ const saveMessageToBD = async(req, res) => {
     const {chatId, msg, sender, date } = req.body;
     try {
         const newMessage = new messageModel({chatId, msg, sender, date});
-        await newMessage.save();
+        const sav = await newMessage.save();
 
-        setTimeout( async() =>{
-            const answer = generateAnswerMsg(msg);
+        if (sav) {
             const date = formatDate(new Date());
 
-            const answerMsg = new messageModel({chatId, msg:answer, sender: "bot", date});
+            const answer = await getResponse(msg);
+
+            const answerMsg = new messageModel({chatId, msg:answer, sender: "bot", date: formatDate(new Date())});
 
             const response = await answerMsg.save();
             res.status(200).json(response);
+        }
+        // setTimeout( async() =>{
+            
 
-        }, 3000)
+        // }, 3000)
 
 
     } catch(err) {
@@ -94,6 +99,37 @@ const deleteMessages = async(req, res) => {
     res.status(500).json(err);
    }
 }
+
+
+const getResponse = async (input) => {
+    try {
+        const response = await fetch(`https://api-inference.huggingface.co/models/${process.env.HUGGING_FACE_AI_MODEL}`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${process.env.HUGGING_FACE_TOKEN_KEY}`,
+                'Content-Type': 'application/json',        
+            }, 
+            body: JSON.stringify({
+                inputs: `Instruction: Answer concisely.\n\n${input}\n\n`,
+              
+            })
+        })
+
+        if (!response.ok) {
+            throw new Error (await response.text())
+        }
+
+        const data = await response.json();
+        console.log(data[0].generated_text.split('\n\n')[2]);
+        
+        return data[0].generated_text.split('\n\n')[2] || 'Hmm... I have no mood to talk with you now...'
+       
+    } catch (e) {
+        console.log(e);
+        
+    }
+}
+
 
 module.exports = {
     getAllMessages,
