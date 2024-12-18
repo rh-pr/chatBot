@@ -26,7 +26,9 @@ function ChatCard({chat}) {
   }
 
   useEffect(() => {
-    newNotification === chat.id && chat.id !== activeChat ? setCount(prev => prev + 1) : count;
+    newNotification === chat.id && chat.id !== activeChat.id  ? setCount(prev => prev + 1) : count;
+
+    // return () => setCount(0)
   },[newNotification])
   return (
     <div className={`card`} onClick={() => handleCard()}>

@@ -22,6 +22,7 @@ export const ChatProvider = ({ children }) => {
     const [selectedChat, setSelectedChat] = useState('');
 
     const [newNotification, setNewNotification] = useState(null)
+    const [sendingMsg, setSendingMsg] = useState(null)
 
 
     const [testing, setTesting] = useState('');
@@ -146,10 +147,6 @@ export const ChatProvider = ({ children }) => {
         window.sessionStorage.setItem('chats', JSON.stringify(chats));
     },[chats])
 
-    useEffect(() => {
-        console.log('testing',testing)
-    },[testing])
-
 
     useEffect(() => {
         if (!user) {
@@ -186,6 +183,9 @@ export const ChatProvider = ({ children }) => {
             selectedChat,
             setSelectedChat,
             newNotification,
+            setNewNotification,
+            sendingMsg,
+            setSendingMsg,
 
             addNewChat,
             formatDate,

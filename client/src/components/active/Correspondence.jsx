@@ -11,13 +11,14 @@ function Correspondence() {
   useEffect(() => {
     if (!messagesList || !activeChat) return;
     const filtered = messagesList.filter(msg => msg.chatId === activeChat.id);
+
     setFilteredMsg(filtered);
   },[messagesList, activeChat])
 
   return (
     <div className="corresp">
-      {filteredMsg && filteredMsg.map((msg) => 
-      <div className={`msg-container ${msg.sender === 'user' ? 'msg-sende' :  'msg-recieve'}`} key={msg.id}>
+      {filteredMsg && filteredMsg.map((msg, ind) => 
+      <div className={`msg-container ${msg.sender === 'user' ? 'msg-sende' :  'msg-recieve'}`} key={`${msg.id}-${ind}`}>
        {msg.sender === 'bot' && <figure>
          <img src={girl} alt="avatar"  />
        </figure>}

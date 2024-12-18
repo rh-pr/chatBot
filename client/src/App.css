@@ -73,7 +73,15 @@ figcaption {
 .online {
   position: absolute;
   bottom: 1px;
-  left: 32px;
+  left: 2.5vw;
+}
+
+@media screen and (max-width: 768px) {
+  .card > .avatar > figure > .online {
+    left: -1vw;
+    bottom: -2vh;
+  }
+ 
 }
 
 .corresp {
@@ -312,7 +320,7 @@ figcaption {
   display: none;
   position: absolute;
   right: 4px;
-  top: 4px;
+  top: 6px;
   background-color: green;
   color: white;
   font-size: 10px;
@@ -363,6 +371,7 @@ figcaption {
 .modal-btn {
   padding: 2px;
   min-width: 80px;
+  height: 30px;
   background-color: transparent;
   border-radius: 10px;
   border-color: skyblue;
