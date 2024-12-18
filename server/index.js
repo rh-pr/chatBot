@@ -1,13 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const {Server, Socket} = require('socket.io');
+const { Server } = require('socket.io');
 
 
 
 const userRoute = require('./routes/userRoute');
 const chatRoute = require('./routes/chatRoute');
 const messageRoute = require('./routes/messageRoute')
+const socketControllers = require('./controllers/socketControllers');
+
+const users = [];
 
 require('dotenv').config();
 
@@ -25,9 +28,7 @@ const uri = process.env.ATLAS_URI;
 
 app.use('/api/users', userRoute);
 app.use('/api/chats', chatRoute);
-
 app.use('/api/messages', messageRoute);
-
 
 
 const server = app.listen(PORT, () => {
@@ -46,8 +47,4 @@ const io = new Server(server, {
     }
 })
 
-
-
-io.on('connection', (socket) => {
-    console.log('here is running socket')
-})
+socketControllers(io);
