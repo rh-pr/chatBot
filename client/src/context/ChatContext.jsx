@@ -37,12 +37,12 @@ export const ChatProvider = ({ children }) => {
             sendingTime: chat.lastMsgTime,
         }
         
-        const url = `${import.meta.env.VITE_BASE_URL}/chats/newChat`;
+        const url = `${import.meta.env.VITE_BASE_URL}/api/chats/newChat`;
         await postRequest(url, newChat);
     }
 
     const getChatsFromDB = async(userId) => {
-        const updatedChats = await getRequest(`${import.meta.env.VITE_BASE_URL}/chats/${userId}`);
+        const updatedChats = await getRequest(`${import.meta.env.VITE_BASE_URL}/api/chats/${userId}`);
         if (!updatedChats) return [];
         const newChatsList = updatedChats.map(chat => {
              return {
@@ -65,13 +65,13 @@ export const ChatProvider = ({ children }) => {
     }
 
     const deleteChat = async(chatId) => {
-        const url = `${import.meta.env.VITE_BASE_URL}/chats/deleteChat/${chatId}`;
+        const url = `${import.meta.env.VITE_BASE_URL}/api/chats/deleteChat/${chatId}`;
         const res = await deleteRequest(url);
         console.log('deleted', res)
     }
 
     const editChat = async(editedData) => {
-        const url = `${import.meta.env.VITE_BASE_URL}/chats/updateChat`;
+        const url = `${import.meta.env.VITE_BASE_URL}/api/chats/updateChat`;
         const response = await updateRequest(url, editedData);
         console.log('edited ', response); 
     }
@@ -89,7 +89,7 @@ export const ChatProvider = ({ children }) => {
       };
 
     const saveMsgToDB = async(msg) => {
-        const url = `${import.meta.env.VITE_BASE_URL}/messages/sendMsg`;
+        const url = `${import.meta.env.VITE_BASE_URL}/api/messages/sendMsg`;
         const newMsg = {
             chatId: msg.chatId,
             msg: msg.msg,
@@ -110,7 +110,7 @@ export const ChatProvider = ({ children }) => {
     
     const getMessagesFromDB = async(chatId) => {
         if (user) {
-            const url = `${import.meta.env.VITE_BASE_URL}/messages/${chatId}`;
+            const url = `${import.meta.env.VITE_BASE_URL}/api/messages/${chatId}`;
             const response = await getRequest(url);
         
             updateLastMessage(response.msg, response.date);
@@ -126,7 +126,7 @@ export const ChatProvider = ({ children }) => {
     }
 
     const removeMessages = async ( chatId ) => {
-        const url = `${import.meta.env.VITE_BASE_URL}/messages/delete/${chatId}`;
+        const url = `${import.meta.env.VITE_BASE_URL}/api/messages/delete/${chatId}`;
         await deleteRequest(url);
     }
     const updateMsgList = (newMsg) => {

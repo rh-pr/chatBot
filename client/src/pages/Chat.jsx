@@ -10,7 +10,12 @@ import { useUser } from '../context/UserContext';
 
 
 function Chat() {
-  const socket = io(`${import.meta.env.VITE_SOCKET_URL}`);
+
+  const socket = io(`${import.meta.env.VITE_BASE_URL}`, {
+    transports: ['websocket'],
+    withCredentials: true, 
+  });
+
   const {sendingMsg, updateMsgList, updateLastMessage, setNewNotification } = useChat();
   const { generateUnicID } = useUser();
 

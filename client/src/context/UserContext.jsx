@@ -19,7 +19,7 @@ export const UserProvider = ({ children }) => {
     };
 
     const logIn = async(data) => {
-        const url = `${import.meta.env.VITE_BASE_URL}/users/login`;
+        const url = `${import.meta.env.VITE_BASE_URL}/api/users/login`;
         const res = await postRequest(url, data);
         setUser(res);
     };
