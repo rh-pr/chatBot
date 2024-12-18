@@ -4,9 +4,7 @@ const users = [];
 
 const socketControllers = async(io) => {
     io.on('connect', (socket) => {
-        console.log('Socket connected: ', socket.id)
 
-    
         socket.on('addNewUser', (userId) => {
             if(!users.includes(userId)) {
                 users.push(socket.id)
@@ -15,11 +13,9 @@ const socketControllers = async(io) => {
 
 
         socket.on('sendMessage', async (data) => {
-            console.log('Message received:', data);
-
            if (data) {
             const newMessage = new messageModel({chatId: data.chatId, msg: data.msg, sender: data.sender, date: data.time});
-            const sav = await newMessage.save();
+            await newMessage.save();
 
             const answer = await getResponse(data.msg);
 
@@ -36,7 +32,6 @@ const socketControllers = async(io) => {
         } )
 
         socket.on('disconnect', () => {
-            console.log('user disconnected');
             const index = users.findIndex(el => el === socket.id);
             if(index !== -1) {
                 users.splice(index, 1);

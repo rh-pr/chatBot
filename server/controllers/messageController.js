@@ -8,8 +8,6 @@ const generateAnswerMsg = (msg) => {
 }
 
 const getMessagesByID = async(req, res) => {
-    console.log('hi');
-    
     const { chatId } = req.params;
 
     try {
