@@ -10,7 +10,6 @@ const chatRoute = require('./routes/chatRoute');
 const messageRoute = require('./routes/messageRoute')
 const socketControllers = require('./controllers/socketControllers');
 
-const users = [];
 
 require('dotenv').config();
 
@@ -18,7 +17,9 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors({
-    origin: '*'
+    origin: 'https://chat-bot-weld-nine.vercel.app',
+    methods: ['GET', 'POST', 'DELETE', 'PUT'],
+    credentials: true,
 }));
 app.use(express.json());
 
@@ -42,8 +43,9 @@ mongoose.connect(uri).then(() => console.log('MongoDB contectes')).catch((error)
 
 const io = new Server(server, {
     cors: {
-        origin: '*', //here chage to the client address
-        methods: ['GET', 'POST']
+        origin: 'https://chat-bot-weld-nine.vercel.app', 
+        methods: ['GET', 'POST'],
+        credentials: true
     }
 })
 
